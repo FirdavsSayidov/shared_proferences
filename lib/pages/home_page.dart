@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:shared_proferences_2/pages/login_page.dart';
+
+import '../modul/user_modul.dart';
+import '../services/pref_services.dart';
+
+
 class HomePage extends StatefulWidget {
+  static const String id = 'HomePage';
   const HomePage({Key? key}) : super(key: key);
 
   @override
@@ -7,6 +14,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String? myname;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  Dologin(){
+    String email = emailController.text.toString().trim();
+    String password = passwordController.text.toString().trim();
+    User user = User.from(password: password,email: email);
+    Prefs.storeUser(user);
+    Prefs.loadUser().then((value) => {
+      print(user.email)
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +101,9 @@ class _HomePageState extends State<HomePage> {
            height: 55,
            width: 200,
            decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),color: Colors.blue[900]),
-           child: Center(child: Text('LOG IN ',style: TextStyle(fontSize:17,color: Colors.white,fontWeight: FontWeight.bold),)),
+           child: Center(child: TextButton(onPressed: Dologin,
+           child: Text('LOG IN ',style: TextStyle(fontSize:17,color: Colors.white,fontWeight: FontWeight.bold),),
+           )),
          ),
          SizedBox(height: 40,),
          Text('Or connect using',style: TextStyle(color: Colors.grey[400]),),
@@ -120,9 +142,11 @@ class _HomePageState extends State<HomePage> {
          SizedBox(height: 40,),
          Row(mainAxisAlignment: MainAxisAlignment.center,
            children: [
-              Text('Don`t have an account? '),
-             Text('Sign Up',style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),)
-
+              Text('Don`t have an account?'),
+          TextButton(onPressed: (){
+            Navigator.pushNamed(context, LoginPage.id);
+          }, child:Text('Sign Up',style: TextStyle(color: Colors.blue,fontWeight: FontWeight.bold),)
+          )
            ],
          )
        ],

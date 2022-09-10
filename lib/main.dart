@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_proferences_2/pages/home_page.dart';
+import 'package:shared_proferences_2/pages/login_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,6 +19,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: HomePage(),
+      routes: {
+        LoginPage.id:(context) => LoginPage(),
+        HomePage.id:(context) => HomePage()
+      },
     );
   }
 }
